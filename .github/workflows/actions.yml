@@ -1,0 +1,33 @@
+name: Quirofano_service
+
+on:
+  push:
+    branches:
+      - 'features/**'
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  call_env:
+    uses: ./.github/workflows/actionsvariables.yml
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Revision de codigo
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restaurar dependencias
+        run: dotnet restore ./Quirofano.Api.slnx
+
+      - name: Compilar proyecto
+        run: dotnet build ./Quirofano.Api.slnx --configuration Release --no-restore
+
+      - name: Ejecutar pruebas con cobertura de codigo
+        run: dotnet test ./Quirofano.Api.Test/Quirofano.Api.Test.csproj --configuration Release --no-build --collect:"XPlat Code Coverage"

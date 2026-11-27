@@ -1,0 +1,43 @@
+name: Quirofano_variables
+
+on:
+  workflow_call:
+
+env:
+  App_name: 'Quirofano.Api'
+  Dotnet_Version: '10'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TipoEjecucion: 'Validacion de variables'
+    steps:
+      - name: Ejecutar checkout
+        uses: actions/checkout@v7
+
+      - name: Mostrar variables
+        env:
+          mensaje: Hola soy una variable
+        run: |
+          echo "Aplicacion: $App_name"
+          echo "Version de framework: $Dotnet_Version"
+          echo "Variable local: $TipoEjecucion"
+          echo "$mensaje"
+
+      - name: Variables del repositorio
+        run: |
+          echo "${{ vars.PROYECT_DESCRIPTION }}"
+          echo "$GITHUB_WORKSPACE"
+
+      - name: Reemplazar appsettings
+        shell: pwsh
+        run: |
+          $path = "$env:GITHUB_WORKSPACE/Quirofano.Api/appsettings.json"
+          $json = Get-Content $path -Raw | ConvertFrom-Json
+          echo "antes..."
+          echo $json
+          $json.ConnectionStrings.default = "prueba de la cadena de conexion"
+          $json | ConvertTo-Json -Depth 10 | Set-Content $path
+          echo "despues..."
+          echo $json
