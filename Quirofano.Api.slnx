@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Quirofano.Api.Domain/Quirofano.Api.Domain.csproj" />
+  <Project Path="Quirofano.Api.Infraestructura/Quirofano.Api.Infraestructura.csproj" />
+  <Project Path="Quirofano.Api.Presenters/Quirofano.Api.Presenters.csproj" />
+  <Project Path="Quirofano.Api.Test/Quirofano.Api.Test.csproj" />
+  <Project Path="Quirofano.Api/Quirofano.Api.csproj" />
+</Solution>
